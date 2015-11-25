@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="../bower_components/polymer/polymer.html" rel="import">
+  <!-- Element Imports -->
+  <link href="../bower_components/paper-drawer-panel/paper-drawer-panel.html" rel="import">
+  <link href="../bower_components/paper-header-panel/paper-header-panel.html" rel="import">
+  <link href="../bower_components/paper-toolbar/paper-toolbar.html" rel="import">
+  <link href="../bower_components/paper-icon-button/paper-icon-button.html" rel="import">
+  <link href="../bower_components/paper-material/paper-material.html" rel="import">
+  <link href="../bower_components/paper-menu/paper-menu.html" rel="import">
+  <link href="../bower_components/paper-item/paper-item.html" rel="import">
+  <link href="../bower_components/paper-input/paper-input.html" rel="import">
+  <link href="../bower_components/iron-icons/iron-icons.html" rel="import">
+  <!-- custom elements import -->
+  <link href="../elements/todo-element.html" rel="import">
+</head>
+<dom-module id="todo-app">
+  <style>
+  /* CSS rules for your element */
+  paper-toolbar {
+    background:#D32F2F;
+  }
+  </style>
+  <template>
+    <!-- local DOM for your element -->
+    <paper-drawer-panel>
+      <paper-header-panel drawer>
+        <paper-toolbar>
+          <paper-item>Side Bar</paper-item>
+        </paper-toolbar>
+      </paper-header-panel>
+      <!-- side bar content -->
+      <paper-header-panel main>
+        <paper-toolbar>
+          <paper-item>Main Body</paper-item>
+        </paper-toolbar>
+        <!-- body of the element -->
+      </paper-header-panel>
+    </paper-drawer-panel>
+  </template>
+</dom-module>
+<script>
+Polymer({
+  is: "todo-app",
+  properties: {},
+  ready: function(e) {}
+});
+</script>
