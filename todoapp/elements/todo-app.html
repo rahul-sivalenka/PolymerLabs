@@ -19,19 +19,52 @@
 <dom-module id="todo-app">
   <style>
   /* CSS rules for your element */
+  
   paper-toolbar {
-    background:#D32F2F;
+    background: #D32F2F;
+  }
+
+  .list {
+    padding: 0;
+  }
+
+  .list paper-item {
+    min-height: 80px;
+    border-bottom: 1px solid #dedede;
+    background-color: #fafafa;
+  }
+
+  paper-material {
+    background-color: #fff;
+    max-width: 640px;
+    width: 95%;
+    margin: 25px auto;
+    position: relative;
   }
   </style>
   <template>
     <!-- local DOM for your element -->
     <paper-drawer-panel>
+      <!-- drawer panel -->
       <paper-header-panel drawer>
         <paper-toolbar>
-          <paper-item>Side Bar</paper-item>
+          <paper-item>Completed Tasks</paper-item>
         </paper-toolbar>
+        <!-- side bar content -->
+        <paper-menu class="list">
+          <!-- conditional template -->
+          <template is="dom-if" if="{{!done.length}}">
+            <paper-material>
+              <paper-item>Completed tasks will appear here!</paper-item>
+            </paper-material>
+          </template>
+          <!-- loop template -->
+          <template id="done" is="dom-repeat" items="{{done}}">
+            <paper-item>{{item.task}}<i style="margin-left: 5px;">{{item.user}}</i></paper-item>
+          </template>
+        </paper-menu>
       </paper-header-panel>
-      <!-- side bar content -->
+      <!-- main content panel -->
       <paper-header-panel main>
         <paper-toolbar>
           <paper-item>Main Body</paper-item>
@@ -44,7 +77,20 @@
 <script>
 Polymer({
   is: "todo-app",
-  properties: {},
+  properties: {
+    todo: {
+      type: Array, // default with one value
+      value: [{
+        user: "Coder",
+        task: "Learn Polymer",
+        rid: 0
+      }]
+    },
+    done: {
+      type: Array,
+      value: []
+    }
+  },
   ready: function(e) {}
 });
 </script>
