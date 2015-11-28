@@ -9,16 +9,19 @@
 ####Setting up the project
   1. Create a folder in the server webapps directory with application's name (TodoApp).
   2. Run the following command to initialize the bower project. You'll be asked to fill the details of the project.
+  
       ```
       bower init
       ```
   3. The Polymer required elements can be installed using the following command.
+  
       ```
       bower install --save Polymer/polymer#^1.0.0
       # This intalls the basic polymer library required to run the application.
       # It uses the polymer github repository to install the library.
       ```
   4. Install the inbuilt polymer elements using the following command
+  
       ```
       bower install polymerelements/<element-name>
       ```
