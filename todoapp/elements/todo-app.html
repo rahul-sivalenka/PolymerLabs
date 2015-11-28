@@ -42,32 +42,42 @@
     margin: 25px auto;
     position: relative;
   }
-
+  
   #todoEntry {
     margin: 0;
     width: 100%;
     max-width: none;
     border-bottom: 1px solid #ccc;
+    padding: 8px 0 11px 0;
   }
-
+  
   paper-input {
     /*margin: 0 4vw;*/
     margin: 0 8vw 0 4vw;
     padding: 0;
   }
-
+  
   paper-fab {
     position: absolute;
-    bottom: 4vh; /*2vh;*/
+    bottom: 2vh;
+    /*2vh;*/
     right: 2vw;
     background: #00bcd4;
   }
-
+  
   #todos {
     overflow-y: scroll;
-    height: 66vh;
+    height: 70vh;
+    width: 100%;
   }
-
+  
+  #tUser {
+    padding-right: 10vh;
+  }
+  
+  #content {
+    background-color: #ccc;
+  }
   </style>
   <template>
     <!-- local DOM for your element -->
@@ -92,14 +102,15 @@
         </paper-menu>
       </paper-header-panel>
       <!-- main content panel -->
-      <paper-header-panel main>
+      <paper-header-panel id="content" main>
         <paper-toolbar>
-          <paper-item>Main Body</paper-item>
+          <paper-item>Active Tasks</paper-item>
         </paper-toolbar>
         <!-- body of the element -->
+        <!-- to create a new Todo -->
         <paper-material id="todoEntry" elevation="2">
           <paper-input id="tTask" label="Task"></paper-input>
-          <paper-input id="tUser" label="Username" maxlength="16"></paper-input>
+          <paper-input id="tUser" label="Username" char-counter maxlength="16"></paper-input>
           <paper-fab icon="icons:add" on-tap="postTask"></paper-fab>
         </paper-material>
         <div id="todos">
@@ -134,18 +145,18 @@ Polymer({
     }
   },
   postTask: function(e) { // Add a new task
-    var tsk = this.$.tTask.value; 
+    var tsk = this.$.tTask.value;
     /* 
       - this.$ accesses the statically placed local DOM
         elements with a specific id selector.
       - here tTask is the ID of the element to be accessed. 
     */
     var usr = this.$.tUser.value;
-    if(tsk == "") {
+    if (tsk == "") {
       alert("Task is Empty!");
       return;
     }
-    if(usr == "") {
+    if (usr == "") {
       usr = "Anonymous";
     }
 
@@ -153,6 +164,25 @@ Polymer({
     this.$.tTask.value = "";
 
     // process the inputs
+  },
+  handleComplete: function(e) {
+    console.log("handleComplete", arguments);
+    var idx = findWithAttr(this.todo, 'rid', e.target.rid);
+    var itm = this.todo[idx];
+    itm.task = e.target.task; // task of the fired event
+    itm.user = this.$.tUser.value; // user who completed task
+    itm.type = "done"; // change to completed
+  },
+  ready: function(e) {
+    console.log("ready-todo-app", arguments);
+    this.addEventListener('complete', this.handleComplete);
+  },
+}); // Polymer
+function findWithAttr (array, attr, value) {
+  for(var i = 0; i < array.length; i++) {
+    if(array[i][attr] === value) {
+      return i;
+    }
   }
-});
+}
 </script>
