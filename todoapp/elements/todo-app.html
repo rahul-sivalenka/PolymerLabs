@@ -13,6 +13,7 @@
   <link href="../bower_components/paper-item/paper-item.html" rel="import">
   <link href="../bower_components/paper-input/paper-input.html" rel="import">
   <link href="../bower_components/iron-icons/iron-icons.html" rel="import">
+  <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
   <!-- custom elements import -->
   <link href="../elements/todo-element.html" rel="import">
 </head>
@@ -23,17 +24,17 @@
   paper-toolbar {
     background: #D32F2F;
   }
-
+  
   .list {
     padding: 0;
   }
-
+  
   .list paper-item {
     min-height: 80px;
     border-bottom: 1px solid #dedede;
     background-color: #fafafa;
   }
-
+  
   paper-material {
     background-color: #fff;
     max-width: 640px;
@@ -41,6 +42,32 @@
     margin: 25px auto;
     position: relative;
   }
+
+  #todoEntry {
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    border-bottom: 1px solid #ccc;
+  }
+
+  paper-input {
+    /*margin: 0 4vw;*/
+    margin: 0 8vw 0 4vw;
+    padding: 0;
+  }
+
+  paper-fab {
+    position: absolute;
+    bottom: 4vh; /*2vh;*/
+    right: 2vw;
+    background: #00bcd4;
+  }
+
+  #todos {
+    overflow-y: scroll;
+    height: 66vh;
+  }
+
   </style>
   <template>
     <!-- local DOM for your element -->
@@ -70,6 +97,21 @@
           <paper-item>Main Body</paper-item>
         </paper-toolbar>
         <!-- body of the element -->
+        <paper-material id="todoEntry" elevation="2">
+          <paper-input id="tTask" label="Task"></paper-input>
+          <paper-input id="tUser" label="Username" maxlength="16"></paper-input>
+          <paper-fab icon="icons:add" on-tap="postTask"></paper-fab>
+        </paper-material>
+        <div id="todos">
+          <template is="dom-if" if="{{!todo.length}}">
+            <paper-material>
+              <paper-item>No Tasks remain. Updates are Real-Time so stay tuned!</paper-item>
+            </paper-material>
+          </template>
+          <template id="tasks" is="dom-repeat" items="{{todo}}">
+            <todo-element user="{{item.user}}" task="{{item.task}}" rid="{{item.rid}}"></todo-element>
+          </template>
+        </div>
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -91,6 +133,26 @@ Polymer({
       value: []
     }
   },
-  ready: function(e) {}
+  postTask: function(e) { // Add a new task
+    var tsk = this.$.tTask.value; 
+    /* 
+      - this.$ accesses the statically placed local DOM
+        elements with a specific id selector.
+      - here tTask is the ID of the element to be accessed. 
+    */
+    var usr = this.$.tUser.value;
+    if(tsk == "") {
+      alert("Task is Empty!");
+      return;
+    }
+    if(usr == "") {
+      usr = "Anonymous";
+    }
+
+    // empty the input
+    this.$.tTask.value = "";
+
+    // process the inputs
+  }
 });
 </script>
